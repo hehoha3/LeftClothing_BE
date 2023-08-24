@@ -20,21 +20,31 @@ public class CategoryService {
         return categoryRepo.findAll();
     }
 
-    public Category addCategory(@NotNull CategoryDTO categoryRequest) {
+    public Category getCategoryById(Integer id) {
+        return categoryRepo.findAllById(id);
+    }
+
+    public void addCategory(CategoryDTO categoryRequest) {
         Category newCategory = Category.build(
                 0,
                 categoryRequest.getCategoryName(),
                 categoryRequest.getCategoryImage()
         );
-        return categoryRepo.save(newCategory);
+        categoryRepo.save(newCategory);
     }
 
-    public String deleteCategory(Integer id) {
-        if (categoryRepo.existsById(id)) {
-            categoryRepo.deleteById(id);
-            return "DELETE CATEGORY SUCCESSFULLY !";
-        } else {
-            return "THIS CATEGORY'S ID DOES NOT EXIST !!";
-        }
+    public void updateCategory(Integer id, CategoryDTO categoryRequest) {
+        Category category = categoryRepo.findAllById(id);
+        category.setCategoryName(categoryRequest.getCategoryName());
+        category.setCategoryImage(categoryRequest.getCategoryImage());
+        categoryRepo.save(category);
+    }
+
+    public void deleteCategory(Integer id) {
+        categoryRepo.deleteById(id);
+    }
+
+    public Boolean existsById(Integer id) {
+        return categoryRepo.existsById(id);
     }
 }

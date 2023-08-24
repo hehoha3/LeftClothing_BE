@@ -27,7 +27,7 @@ public class ProductService {
         return productRepo.findAllById(id);
     }
 
-    public Product addProduct(ProductDTO productRequest) {
+    public void addProduct(ProductDTO productRequest) {
         Product newProduct = new Product();
         newProduct.setProductName(productRequest.getProductName());
         newProduct.setProductDescription(productRequest.getProductDescription());
@@ -39,40 +39,34 @@ public class ProductService {
 
         Category productCategory = categoryRepo.findAllById(productRequest.getProductCategory());
         newProduct.setProductCategory(productCategory);
-        return productRepo.save(newProduct);
+        productRepo.save(newProduct);
     }
 
-    public String updateProduct(
+    public void updateProduct(
             Integer id,
             ProductDTO productRequest
     ) {
-        if (productRepo.existsById(id)) {
-            Product newProduct = productRepo.findAllById(id);
+        Product newProduct = productRepo.findAllById(id);
 
-            newProduct.setProductName(productRequest.getProductName());
-            newProduct.setProductDescription(productRequest.getProductDescription());
-            newProduct.setProductImages(productRequest.getProductImages());
-            newProduct.setProductPrice(productRequest.getProductPrice());
-            newProduct.setProductQuantity(productRequest.getProductQuantity());
-            newProduct.setProductSizes(productRequest.getProductSizes());
-            newProduct.setProductGender(productRequest.getProductGender());
+        newProduct.setProductName(productRequest.getProductName());
+        newProduct.setProductDescription(productRequest.getProductDescription());
+        newProduct.setProductImages(productRequest.getProductImages());
+        newProduct.setProductPrice(productRequest.getProductPrice());
+        newProduct.setProductQuantity(productRequest.getProductQuantity());
+        newProduct.setProductSizes(productRequest.getProductSizes());
+        newProduct.setProductGender(productRequest.getProductGender());
+        Category productCategory = categoryRepo.findAllById(productRequest.getProductCategory());
 
-            Category productCategory = categoryRepo.findAllById(productRequest.getProductCategory());
-            newProduct.setProductCategory(productCategory);
+        newProduct.setProductCategory(productCategory);
 
-            productRepo.saveAndFlush(newProduct);
-            return "UPDATE PRODUCT SUCCESSFULLY !";
-        } else {
-            return "PRODUCT'S ID DOES NOT EXIST !";
-        }
+        productRepo.save(newProduct);
     }
 
-    public String deleteProduct(Integer id) {
-        if (productRepo.existsById(id)) {
-            productRepo.deleteById(id);
-            return "DELETE PRODUCT SUCCESSFULLY !";
-        } else {
-            return "THIS PRODUCT'S ID DOES NOT EXIST !!";
-        }
+    public void deleteProduct(Integer id) {
+        productRepo.deleteById(id);
+    }
+
+    public Boolean existsById(Integer id) {
+        return productRepo.existsById(id);
     }
 }

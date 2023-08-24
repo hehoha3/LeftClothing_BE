@@ -1,5 +1,6 @@
 package com.left.leftstorebe.controller;
 
+import com.left.leftstorebe.common.ApiResponse;
 import com.left.leftstorebe.model.dto.ProductDTO;
 import com.left.leftstorebe.model.entiti.product.Product;
 import com.left.leftstorebe.service.ProductService;
@@ -32,24 +33,33 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(
+    public ResponseEntity<ApiResponse> addProduct(
             @RequestBody @Valid ProductDTO productRequest
     ) {
-        return new ResponseEntity<>(productService.addProduct(productRequest), HttpStatus.CREATED);
+        productService.addProduct(productRequest);
+        return new ResponseEntity<>(new ApiResponse(true, "Product has been added"), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProduct(
+    public ResponseEntity<ApiResponse> updateProduct(
             @PathVariable Integer id,
             @RequestBody @Valid ProductDTO productRequest
     ) {
-        return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.OK);
+        if (!productService.existsById(id)) {
+            return new ResponseEntity<>(new ApiResponse(false, "Product does not exists"), HttpStatus.NOT_FOUND);
+        }
+        productService.updateProduct(id, productRequest);
+        return new ResponseEntity<>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(
+    public ResponseEntity<ApiResponse> deleteProduct(
             @PathVariable Integer id
     ) {
-        return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
+        if (!productService.existsById(id)) {
+            return new ResponseEntity<>(new ApiResponse(false, "Product does not exists"), HttpStatus.NOT_FOUND);
+        }
+        productService.deleteProduct(id);
+        return new ResponseEntity<>(new ApiResponse(true, "Category has been DELETE"), HttpStatus.OK);
     }
 }
