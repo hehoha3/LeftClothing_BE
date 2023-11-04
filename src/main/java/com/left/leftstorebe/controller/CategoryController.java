@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/category")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
@@ -26,7 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryList(
+    public ResponseEntity<Category> getCategory(
             @PathVariable Integer id
     ) {
         return new ResponseEntity<>(categoryService.getCategoryById(id), HttpStatus.OK);
@@ -37,18 +38,6 @@ public class CategoryController {
             @RequestBody @Valid  CategoryDTO categoryRequest
             ) {
         categoryService.addCategory(categoryRequest);
-        return new ResponseEntity<>(new ApiResponse(true, "Add a New Category Successful"), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updateCategory(
-            @PathVariable Integer id,
-            @RequestBody @Valid  CategoryDTO categoryRequest
-    ) {
-        if (!categoryService.existsById(id)) {
-            return new ResponseEntity<>(new ApiResponse(false, "Category does NOT Exists"), HttpStatus.NOT_FOUND);
-        }
-        categoryService.updateCategory(id, categoryRequest);
         return new ResponseEntity<>(new ApiResponse(true, "Add a New Category Successful"), HttpStatus.CREATED);
     }
 

@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
     @Id
     @SequenceGenerator(
@@ -27,7 +33,7 @@ public class Product {
     @Column(name = "pName")
     private String productName;
 
-    @Column(name = "pDesc")
+    @Column(name = "pDesc", length = 500)
     private String productDescription;
 
     @Column(name = "pImages")
@@ -46,8 +52,26 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category productCategory;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type productType;
+
+    @ManyToOne
+    @JoinColumn(name = "collection_id")
+    private Collection productCollection;
+
     @Column(name = "pGender")
     @Enumerated(EnumType.STRING)
     private List<Gender> productGender;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Date createdAt;
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date updatedAt;
 
 }

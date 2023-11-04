@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/user")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -38,5 +40,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> getUserList() {
         return new ResponseEntity<>(authenticationService.getListUser(), HttpStatus.OK);
+    }
+
+    @GetMapping("/who")
+    public ResponseEntity<User> getUserByToken(
+            @RequestParam("token") String token
+    ) {
+        return new ResponseEntity<>(authenticationService.getUserByToken(token), HttpStatus.OK);
     }
 }

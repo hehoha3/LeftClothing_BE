@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 public class ApiResponse {
-    private final Boolean success;
+    private final boolean success;
     private final String message;
 
     public String getTimestamp() {

@@ -3,7 +3,6 @@ package com.left.leftstorebe.service;
 import com.left.leftstorebe.model.dto.CategoryDTO;
 import com.left.leftstorebe.model.entiti.product.Category;
 import com.left.leftstorebe.repository.CategoryRepo;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,17 +26,9 @@ public class CategoryService {
     public void addCategory(CategoryDTO categoryRequest) {
         Category newCategory = Category.build(
                 0,
-                categoryRequest.getCategoryName(),
-                categoryRequest.getCategoryImage()
+                categoryRequest.getName()
         );
         categoryRepo.save(newCategory);
-    }
-
-    public void updateCategory(Integer id, CategoryDTO categoryRequest) {
-        Category category = categoryRepo.findAllById(id);
-        category.setCategoryName(categoryRequest.getCategoryName());
-        category.setCategoryImage(categoryRequest.getCategoryImage());
-        categoryRepo.save(category);
     }
 
     public void deleteCategory(Integer id) {

@@ -34,14 +34,18 @@ public class ProductDTO {
     @NotNull(message = "Product's Quantity Shouldn't Be NULL")
     private Integer productQuantity;
 
-    @NotNull(message = "Product's Size Shouldn't Be Null !!!")
-    @NotEmpty(message = "Product's Size Shouldn't Be Empty !!!")
     private List<String> productSizes;
 
     @NotNull(message = "Product's Image Shouldn't Be Null !!!")
     private Integer productCategory;
 
+    @NotNull(message = "Product's Type Shouldn't Be Null !!!")
+    private Integer productType;
+
+    private Integer productCollection;
+
     @NotNull(message = "Product's Gender Shouldn't Be Null !!!")
     @NotEmpty(message = "Product's Gender Shouldn't Be Empty !!!")
     private List<Gender> productGender;
+
 }

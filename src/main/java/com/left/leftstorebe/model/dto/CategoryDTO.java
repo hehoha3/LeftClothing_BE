@@ -14,9 +14,5 @@ public class CategoryDTO {
 
     @NotNull(message = "Category's Name Shouldn't Be Null !!!")
     @NotEmpty(message = "Category's Name Shouldn't Be Empty !!!")
-    private String categoryName;
-
-    @NotNull(message = "Category's Image Shouldn't Be Null !!!")
-    @NotEmpty(message = "Category's Image Shouldn't Be Empty !!!")
-    private String categoryImage;
+    private String name;
 }
